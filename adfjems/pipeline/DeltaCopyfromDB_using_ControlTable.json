@@ -1,0 +1,185 @@
+{
+	"name": "DeltaCopyfromDB_using_ControlTable",
+	"properties": {
+		"description": "Copy new or updated rows only from database using external control table",
+		"activities": [
+			{
+				"name": "LookupLastWaterMark",
+				"description": "Retrieve the last high-watermark value stored in external control table",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlSource",
+						"sqlReaderQuery": {
+							"value": "select @{pipeline().parameters.Control_Table_Column_Name} as WatermarkValue from @{pipeline().parameters.Control_Table_Table_Name}",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlDatabaseExternal_ControlTable1",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LookupCurrentWaterMark",
+				"description": "Retrieve  the current maximum value in watermark column of source data store",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlSource",
+						"sqlReaderQuery": {
+							"value": "@concat('select MAX(',pipeline().parameters.Data_Source_WaterMarkColumn, ') as NewWatermarkValue from ',pipeline().parameters.Data_Source_Table_Name)",
+							"type": "Expression"
+						},
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlDatabaseDataSource1",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "DeltaCopyfromDB",
+				"description": "Copy activity to use query to filter the delta data by > last high-watermark and <= current high-watermark from source database, and then only copy the changes to the destination store.",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "LookupCurrentWaterMark",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "LookupLastWaterMark",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"dataIntegrationUnits": 0
+				},
+				"inputs": [
+					{
+						"referenceName": "AzureSqlDatabaseDataSource1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DataDestination1",
+						"type": "DatasetReference",
+						"parameters": {
+							"Data_Destination_Container": {
+								"value": "@pipeline().parameters.Data_Destination_Container",
+								"type": "Expression"
+							},
+							"Data_Destination_Directory": {
+								"value": "@pipeline().parameters.Data_Destination_Directory",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "UpdateWaterMark",
+				"description": "Stored procedure activity to store the new high-watermark value into external control table for delta data loading. ",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "DeltaCopyfromDB",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[update_watermark]",
+					"storedProcedureParameters": {
+						"LastModifyDate": {
+							"value": {
+								"value": "@activity('LookupCurrentWaterMark').output.firstRow.NewWatermarkValue",
+								"type": "Expression"
+							},
+							"type": "datetime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "entsql",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"Data_Source_Table_Name": {
+				"type": "String"
+			},
+			"Data_Source_WaterMarkColumn": {
+				"type": "String"
+			},
+			"Data_Destination_Container": {
+				"type": "String"
+			},
+			"Data_Destination_Directory": {
+				"type": "String"
+			},
+			"Control_Table_Table_Name": {
+				"type": "String"
+			},
+			"Control_Table_Column_Name": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-07-27T20:55:34Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,16 @@
+{
+	"name": "SourceDataset_h4d",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MySql1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "MySqlTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "`products`"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
