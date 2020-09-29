@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "HttpServer",
 		"typeProperties": {
-			"url": "http://download.cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/Medicare-Provider-Charge-Data/Downloads/PartD_Prescriber_PUF_NPI_DRUG_13.zip -OutFile $path/PartD_Prescriber_PUF_NPI_DRUG_13.zip",
+			"url": "https://github.com/okolo/ml_cr_aniso/archive/master.zip",
 			"enableServerCertificateValidation": false,
 			"authenticationType": "Anonymous"
 		}
