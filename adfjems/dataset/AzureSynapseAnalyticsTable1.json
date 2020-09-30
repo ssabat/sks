@@ -7,6 +7,10 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
-		"schema": []
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "AdventureWorksDWBuildVersion"
+		}
 	}
 }
