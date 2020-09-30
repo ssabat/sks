@@ -1,0 +1,15 @@
+{
+	"name": "FactTable2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "entsql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "dbo.FactTable2"
+		}
+	}
+}
