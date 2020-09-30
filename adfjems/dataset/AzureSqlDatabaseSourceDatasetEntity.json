@@ -1,0 +1,14 @@
+{
+	"name": "AzureSqlDatabaseSourceDatasetEntity",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "entsql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"typeProperties": {
+			"tableName": "[dbo].[TableLogs]"
+		}
+	}
+}
