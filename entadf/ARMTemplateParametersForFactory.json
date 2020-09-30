@@ -23,6 +23,9 @@
 		"AzureSynapseAnalytics1_connectionString": {
 			"value": ""
 		},
+		"AzureSynapseAnalytics2_connectionString": {
+			"value": ""
+		},
 		"MySql1_connectionString": {
 			"value": ""
 		},
@@ -30,6 +33,12 @@
 			"value": ""
 		},
 		"linkedService1_connectionString": {
+			"value": ""
+		},
+		"linkedService2_connectionString": {
+			"value": ""
+		},
+		"onpremSqlServer1_connectionString": {
 			"value": ""
 		},
 		"packagaefileshare_connectionString": {
