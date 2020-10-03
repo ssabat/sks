@@ -787,6 +787,56 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Transformation')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Trasformation",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Trasformation",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {},
+									"sink2": {}
+								}
+							},
+							"staging": {
+								"linkedService": {
+									"referenceName": "AzureBlobStorage1",
+									"type": "LinkedServiceReference"
+								},
+								"folderPath": "staging"
+							},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/Trasformation')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseDataSource')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2618,13 +2668,13 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Transformation')]",
+			"name": "[concat(parameters('factoryName'), '/CuurencyConverter')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Trasformation",
+						"name": "CurrencyConverter",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -2637,22 +2687,17 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "Trasformation",
+								"referenceName": "CurrencyConverter",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"source1": {},
-									"sink1": {},
-									"sink2": {}
+									"USDCurrency": {},
+									"CADSource": {},
+									"USDSink": {},
+									"CADSink": {}
 								}
 							},
-							"staging": {
-								"linkedService": {
-									"referenceName": "AzureBlobStorage1",
-									"type": "LinkedServiceReference"
-								},
-								"folderPath": "staging"
-							},
+							"staging": {},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -2663,8 +2708,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/Trasformation')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+				"[concat(variables('factoryId'), '/dataflows/CurrencyConverter')]"
 			]
 		}
 	]
