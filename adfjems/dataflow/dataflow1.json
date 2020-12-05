@@ -29,7 +29,7 @@
 					"name": "Aggregate1"
 				}
 			],
-			"script": "source(output(\n\t\trank as string,\n\t\tmovie_title as string,\n\t\tyear as string,\n\t\trating as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 derive(decade = floor((toInteger(year)/10))*10) ~> DerivedColumn1\nDerivedColumn1 aggregate(groupBy(decade),\n\tmovie_title = count(movie_title),\n\t\trating = mean(toFloat(rating))) ~> Aggregate1\nAggregate1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+			"script": "source(output(\n\t\trank as string,\n\t\tmovie_title as string,\n\t\tyear as string,\n\t\trating as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> source1\nsource1 derive(decade = floor((toInteger(year)/10))*10) ~> DerivedColumn1\nDerivedColumn1 aggregate(groupBy(decade),\n\tmovie_count = count(movie_title),\n\t\taverage_rating = mean(toFloat(rating))) ~> Aggregate1\nAggregate1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
 		}
 	}
 }
