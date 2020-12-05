@@ -19,6 +19,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "movie_analysis",
 				"folderPath": {
 					"value": "@dataset().Directory",
 					"type": "Expression"
@@ -28,6 +29,7 @@
 					"type": "Expression"
 				}
 			}
-		}
+		},
+		"schema": {}
 	}
 }
