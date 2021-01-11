@@ -10,8 +10,8 @@
 		"type": "AzureSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "dbo",
-			"table": "data_source_table"
+			"schema": "SalesLT",
+			"table": "SalesOrderHeader"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
