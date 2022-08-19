@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"value": "sksmanagedsynapse"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"sksmanagedsynapse-WorkspaceDefaultSqlServer_connectionString": {
+			"value": ""
+		},
+		"sksmanagedsynapse-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://sksadlsgen2.dfs.core.windows.net"
+		},
+		"us-consumer-price-index_sasUri": {
+			"value": ""
+		}
+	}
+}
