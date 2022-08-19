@@ -1,0 +1,81 @@
+{
+	"name": "RuleBasedDynamicColumnNames",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "movie_dataflow_source1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "OutputContainer",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RenameColumns"
+				},
+				{
+					"name": "Casting"
+				},
+				{
+					"name": "FixNames"
+				},
+				{
+					"name": "RemoveOldNames"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          movie as string,",
+				"          title as string,",
+				"          genres as string,",
+				"          year as string,",
+				"          Rating as string,",
+				"          {Rotton Tomato} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"FixNames derive(each(match(type=='string'), $$ + '_trimmed' = trim(toString($$))),",
+				"          each(match(type=='integer'), 'int_' + $$ = toInteger($$))) ~> RenameColumns",
+				"source1 derive(year = toInteger(year),",
+				"          movie = toInteger(movie),",
+				"          Rating = toInteger(Rating),",
+				"          {Rotton Tomato} = toInteger({Rotton Tomato})) ~> Casting",
+				"Casting select(mapColumn(",
+				"          movie,",
+				"          title,",
+				"          genres,",
+				"          year,",
+				"          rating = Rating,",
+				"          rottentomato = {Rotton Tomato}",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> FixNames",
+				"RenameColumns select(mapColumn(",
+				"          title_trimmed,",
+				"          genres_trimmed,",
+				"          int_movie,",
+				"          int_year,",
+				"          int_rating,",
+				"          int_rottentomato",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> RemoveOldNames",
+				"RemoveOldNames sink(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> sink1"
+			]
+		}
+	}
+}

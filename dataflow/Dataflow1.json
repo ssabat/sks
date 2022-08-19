@@ -1,0 +1,58 @@
+{
+	"name": "Dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SourceDataset_edj",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DestinationDataset_edj",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          {1} as string,",
+				"          {1970 Napa Ct.} as string,",
+				"          Prop_2 as string,",
+				"          Bothell as string,",
+				"          {79} as string,",
+				"          {98011} as string,",
+				"          E6100000010CAE8BFC28BCE4474067A89189898A5EC0 as string,",
+				"          {9AADCB0D-36CF-483F-84D8-585C2D4EC6E9} as string,",
+				"          {2007-12-04 00:00:00} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          {1},",
+				"          Street = {1970 Napa Ct.},",
+				"          Prop_2,",
+				"          Bothell,",
+				"          {79},",
+				"          {98011},",
+				"          E6100000010CAE8BFC28BCE4474067A89189898A5EC0,",
+				"          {9AADCB0D-36CF-483F-84D8-585C2D4EC6E9},",
+				"          {2007-12-04 00:00:00}",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

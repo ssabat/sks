@@ -1,0 +1,61 @@
+{
+	"name": "SourceDataset_edj",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Address.csv",
+				"container": "sampledata"
+			},
+			"columnDelimiter": "\t",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "1",
+				"type": "String"
+			},
+			{
+				"name": "1970 Napa Ct.",
+				"type": "String"
+			},
+			{
+				"name": "Prop_2",
+				"type": "String"
+			},
+			{
+				"name": "Bothell",
+				"type": "String"
+			},
+			{
+				"name": "79",
+				"type": "String"
+			},
+			{
+				"name": "98011",
+				"type": "String"
+			},
+			{
+				"name": "E6100000010CAE8BFC28BCE4474067A89189898A5EC0",
+				"type": "String"
+			},
+			{
+				"name": "{9AADCB0D-36CF-483F-84D8-585C2D4EC6E9}",
+				"type": "String"
+			},
+			{
+				"name": "2007-12-04 00:00:00",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

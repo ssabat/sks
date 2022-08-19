@@ -1,0 +1,10 @@
+{
+	"name": "synapse-ws-custstgacct--sksmanagedsynapse-sksadlsgen2",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/222f1459-6ebd-4896-82ab-652d5f6883cf/resourceGroups/sksrg/providers/Microsoft.Storage/storageAccounts/sksadlsgen2",
+		"groupId": "dfs",
+		"fqdns": [
+			"sksadlsgen2.dfs.core.windows.net"
+		]
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"name": "Rule Based Dynamic Column Names",
+	"properties": {
+		"description": "https://kromerbigdata.com/2019/05/24/adf-mapping-data-flows-create-rules-to-modify-column-names/",
+		"activities": [
+			{
+				"name": "Rule Based Dynamic Column Names",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "RuleBasedDynamicColumnNames",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-08-03T12:06:51Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}
